@@ -50,6 +50,15 @@ def handle_client(client):
             break
 
 ''' Sends message to all connected clients. '''
-def broadcast(msg. prefix=""): # Prefix for client name indentification.
+def broadcast(msg. prefix=""): # Prefix for client name identification.
     for sock in clients:
         sock.send(bytes(prefix, "utf8")+msg)
+
+''' Listen for connections. '''
+if __name__ == "__main__":
+    SERVER.listen(5)
+    print("Waiting for connection...")
+    ACCEPT_THREAD = Thread(target=accept_incoming_connections)
+    ACCEPT_THREAD.start()
+    ACCEPT_THREAD.join()  # Don't execute next line until this finishes.
+    SERVER.close()
