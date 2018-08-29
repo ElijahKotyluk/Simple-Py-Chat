@@ -1,5 +1,5 @@
 from socket import AF_INET, socket, SOCK_STREAM
-from threading import threading
+from threading import Thread
 
 clients = {}
 addresses = {}
@@ -50,7 +50,7 @@ def handle_client(client):
             break
 
 ''' Sends message to all connected clients. '''
-def broadcast(msg. prefix=""): # Prefix for client name identification.
+def broadcast(msg, prefix=""): # Prefix for client name identification.
     for sock in clients:
         sock.send(bytes(prefix, "utf8")+msg)
 
