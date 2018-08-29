@@ -28,8 +28,9 @@ def accept_incoming_connections():
 
 ''' Takes client socket as arg. '''
 def handle_client(client):
-    ''' Handles single client connection. '''
+    ''' Saves new client name. '''
     name = client.recv(BUFSIZ).decode("utf8")
+    ''' Greet newly connected user. '''
     welcome = 'Welcome %s! If you want to quit, type {quit} to exit.' % name
     client.send(bytes,(msg, "utf8"))
     msg = "%s has joined the chat." % name
@@ -37,11 +38,18 @@ def handle_client(client):
     clients[client] = name
     while True:
         msg = client.recv[BUFSIZ]
+        ''' Post message '''
         if msg != bytes("{quit}", "utf8"):
             broadcast(msg, name+": ")
         else:
+            ''' If user enters {quit}. exit client. '''
             client.send(bytes("{quit}", "utf8"))
             client.close()
             del clients[client]
             broadcast(bytes("%s has left the chat." % name, "utf8"))
             break
+
+''' Sends message to all connected clients. '''
+def broadcast(msg. prefix=""): # Prefix for client name indentification.
+    for sock in clients:
+        sock.send(bytes(prefix, "utf8")+msg)
