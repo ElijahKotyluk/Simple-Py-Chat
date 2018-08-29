@@ -1,14 +1,15 @@
-from socket import AF_INET, sockert, SOCK_STREAM
-from threading import thread
+from socket import AF_INET, socket, SOCK_STREAM
+from threading import Thread
 import tkinter
 
 ''' Handle received messages. '''
 def receive():
     while True:
-        try: msg = client_socket.recv(BUFSIZ).decode("utf8") # Wait for message to be received.
-        msg_list.insert(tkinter.END, msg) # Append message to msg_list.
-    except OSError: # Client leaves chat.
-        break
+        try: 
+            msg = client_socket.recv(BUFSIZ).decode("utf8") # Wait for message to be received.
+            msg_list.insert(tkinter.END, msg) # Append message to msg_list.
+        except OSError: # Client leaves chat.
+            break
 
 def send(event=None): # Event passed by binders.
     msg = my_msg.get() # Extract message being sent.
@@ -22,7 +23,7 @@ def on_closing(event=None):
     my_msg.set("{quit}")
     send()
 
-top tkinter.Tk() # Create frame for chat box.
+top = tkinter.Tk() # Create frame for chat box.
 top.title("Chat")
 
 messages_frame = tkinter.Frame(top)
@@ -32,7 +33,7 @@ scrollbar = tkinter.Scrollbar(messages_frame) # Navigate through past conversati
 
 msg_list = tkinter.Listbox(messages_frame, height=15, width=50, yscrollcommand=scrollbar.set)
 scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
-msg_list.pack(side=tkinter.LEFT, filler=tkinter.BOTH)
+msg_list.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
 msg_list.pack()
 
 messages_frame.pack()
